@@ -1,25 +1,25 @@
-node {
-    dir("/root/"){
-    checkout scm
+def label = "waiting-game-${UUID.randomUUID().toString()}"
 
-    env.DOCKER_API_VERSION="1.38"
-    appName = "bankdemo/cicd-app"
-    registryHost = "mycluster.icp:8500/"
-    imageName = "${registryHost}${appName}:${env.BUILD_ID}"
-    env.BUILDIMG=imageName
-    docker.withRegistry('https://mycluster.icp:8500/', 'docker'){
-    stage "Build"
-
-        def pcImg = docker.build("mycluster.icp:8500/default/cicd-app:${env.BUILD_ID}", "-f Dockerfile.ppc64le .")
-        sh "cp /root/.dockercfg ${HOME}/.dockercfg"
-        pcImg.push()
-
-    input 'Do you want to proceed with Deployment?'
-    stage "Deploy"
-
-        sh "kubectl set image deployment/demoapp-demochart demochart=${imageName}"
-        sh "kubectl rollout status deployment/demoapp-demochart"
+podTemplate(label: label, 
+yaml: """
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: inno-jenkins 
+spec:
+  containers:
+    - name: ubuntu
+      image: ubuntu
+      tty: true
+"""
+) {
+     node(label){
+       stage('Run'){
+         container('ubuntu') {
+           echo 'waiting game'
+           sleep 5
+           echo 'bye'
+         }
+       }
+    }
 }
-}
-}
-
