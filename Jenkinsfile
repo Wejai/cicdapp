@@ -5,7 +5,7 @@ yaml: """
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: inno-jenkins 
+  namespace: bankdemo 
 spec:
   containers:
     - name: ubuntu
