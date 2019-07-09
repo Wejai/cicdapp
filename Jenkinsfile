@@ -7,7 +7,7 @@ node {
     registryHost = "mycluster.icp:8500/"
     imageName = "${registryHost}${appName}:latest"
     env.BUILDIMG=imageName
-    docker.withRegistry('https://mycluster.icp:8500/', 'docker'){
+    docker.withRegistry('https://mycluster.icp:8500/', 'admin'){
     stage "Build"
 
         def pcImg = docker.build("mycluster.icp:8500/default/cicd-app:latest", "-f Dockerfile.ppc64le .")
