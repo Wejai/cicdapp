@@ -10,7 +10,7 @@ node {
     docker.withRegistry('https://mycluster.icp:8500/', 'docker'){
     stage "Build"
 
-        def pcImg = docker.build("mycluster.icp:8500/default/cicd-app:latest", "-f Dockerfile.ppc64le .")
+        def pcImg = docker.build("mycluster.icp:8500/bankdemo/cicd-app:latest", "-f Dockerfile.ppc64le .")
        
         pcImg.push()
 
