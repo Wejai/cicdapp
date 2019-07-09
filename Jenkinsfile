@@ -11,7 +11,7 @@ node {
     stage "Build"
 
         def pcImg = docker.build("mycluster.icp:8500/default/cicd-app:latest", "-f Dockerfile.ppc64le .")
-        sh "cp /root/.dockercfg /home/.dockercfg"
+       
         pcImg.push()
 
     input 'Do you want to proceed with Deployment?'
